@@ -11,7 +11,7 @@ let changeColors = function (hours) {
         case (hours < currentHour):
             $(".description").removeClass("present future").addClass("past");
             break;
-        case (hours === currentHour):
+        case (hours == currentHour):
             $(".description").removeClass("future past").addClass("present");
             break;
         case (hours > currentHour):
@@ -19,9 +19,9 @@ let changeColors = function (hours) {
             break;
     }
 }
-let storeEvents = function () {
-    localStorage.events[i] = value; 
-}
+// let storeEvents = function () {
+//     localStorage.events[i] = value; 
+// }
 let displayDailyPlanner = function () {
     let now = moment().format('dddd MMMM Do YYYY');
     $("#currentDay").text(now);
