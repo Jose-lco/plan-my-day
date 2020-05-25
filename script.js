@@ -5,19 +5,21 @@ let AMPM = function (hours) {
     return hours + ampm;
 };
 let currentHour = new Date().getHours();
-console.log(currentHour);
-let changeColors = function (hours) {
-    switch (true) {
-        case (hours < currentHour):
-            $(".description").removeClass("present future").addClass("past");
-            break;
-        case (hours == currentHour):
-            $(".description").removeClass("future past").addClass("present");
-            break;
-        case (hours > currentHour):
-            $(".description").removeClass("present past").addClass("future");
-            break;
-    }
+let changeColors = function () {
+    $(".description").each(function () {
+        var hours = parseInt($(this).attr("id"))
+        switch (true) {
+            case (hours < currentHour):
+                $(this).removeClass("present future").addClass("past");
+                break;
+            case (hours == currentHour):
+                $(this).removeClass("future past").addClass("present");
+                break;
+            case (hours > currentHour):
+                $(this).removeClass("present past").addClass("future");
+                break;
+        }
+    })
 }
 // let storeEvents = function () {
 //     localStorage.events[i] = value; 
@@ -31,7 +33,7 @@ let displayDailyPlanner = function () {
         <div class="col-sm-2 hour">
                 <p> ${AMPM(i)} </p>
         </div>
-        <div class="col-sm-8 description"">
+        <div id=${i} class="col-sm-8 description">
             <textarea placeholder="Add event here..."></textarea>
         </div>
         <div class="col-sm-2 saveBtn">
@@ -39,14 +41,11 @@ let displayDailyPlanner = function () {
         </div>
     </div>`
         $(".container").append(hourlyRow);
-        console.log(i);
-        changeColors(i);
     };
-};
-$(".container").on("click", function (e) {
-e.preventDefault();
-
-})
-
-
+    $(".container").on("click", function (e) {
+        e.preventDefault();
+    })
+}
 displayDailyPlanner();
+changeColors()
+setInterval(changeColors, 60000);
