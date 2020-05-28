@@ -4,6 +4,10 @@ let AMPM = function (hours) {
     hours = hours ? hours : 12;
     return hours + ampm;
 };
+let retrieveEvents = function (key) {
+    let value = localStorage.getItem(key);
+    $(`#text${key}`).val(value);
+};
 let currentHour = new Date().getHours();
 let changeColors = function () {
     $(".description").each(function () {
@@ -21,9 +25,6 @@ let changeColors = function () {
         }
     })
 }
-// let storeEvents = function () {
-//     localStorage.events[i] = value; 
-// }
 let displayDailyPlanner = function () {
     let now = moment().format('dddd MMMM Do YYYY');
     $("#currentDay").text(now);
@@ -34,18 +35,28 @@ let displayDailyPlanner = function () {
                 <p> ${AMPM(i)} </p>
         </div>
         <div id=${i} class="col-sm-8 description">
-            <textarea placeholder="Add event here..."></textarea>
+            <textarea id =text${i} placeholder="Add event here..."></textarea>
         </div>
         <div class="col-sm-2 saveBtn">
             <button class="fas fa-save"></button>
         </div>
     </div>`
         $(".container").append(hourlyRow);
+        retrieveEvents(i);
     };
-    $(".container").on("click", function (e) {
-        e.preventDefault();
-    })
-}
+};
+let storeEvents = function (hours) {
+    let hourlyEvent = $(`#text${hours}`).val().trim();
+    console.log(hourlyEvent); 
+    let rightNow = hours;
+    localStorage.setItem(rightNow, hourlyEvent);
+};
+$(document).on("click", ".saveBtn", function (e){
+    e.preventDefault();
+    let currentTime = $(this).prev().attr("id");
+    console.log(currentTime);
+    storeEvents(currentTime);
+});
 displayDailyPlanner();
 changeColors()
 setInterval(changeColors, 60000);
