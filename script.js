@@ -46,15 +46,13 @@ let displayDailyPlanner = function () {
     };
 };
 let storeEvents = function (hours) {
-    let hourlyEvent = $(`#text${hours}`).val().trim();
-    console.log(hourlyEvent); 
+    let hourlyEvent = $(`#text${hours}`).val().trim(); 
     let rightNow = hours;
     localStorage.setItem(rightNow, hourlyEvent);
 };
 $(document).on("click", ".saveBtn", function (e){
     e.preventDefault();
     let currentTime = $(this).prev().attr("id");
-    console.log(currentTime);
     storeEvents(currentTime);
 });
 displayDailyPlanner();
